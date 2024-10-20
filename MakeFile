@@ -1,0 +1,66 @@
+# Detect the operating system
+ifeq ($(OS),Windows_NT)
+    DETECTED_OS := Windows
+else
+    DETECTED_OS := $(shell uname -s)
+endif
+
+# Define OS-specific commands
+ifeq ($(DETECTED_OS),Windows)
+    PYTHON := python
+    ACTIVATE_ENV := powershell -Command "& ((poetry env info --path) + '\Scripts\activate.ps1')"
+    COPY_CMD := powershell -Command "if (Test-Path './patch/src') { Copy-Item -Recurse -Force './patch/src/*' './src/' }"
+    RM_CMD := powershell -Command "Remove-Item -Recurse -Force"
+else
+    PYTHON := python3
+    ACTIVATE_ENV := source $$(poetry env info --path)/bin/activate
+    COPY_CMD := cp -r ./patch/src/. ./src/
+    RM_CMD := rm -rf
+endif
+
+.PHONY: run create-env init patch setup-development clean help
+
+# Run the EmailGenius application
+run:
+	poetry run python main.py
+
+create-env:
+	$(ACTIVATE_ENV)
+
+init:
+	poetry init
+
+patch:
+	@echo "Applying patch..."
+	@echo "$(DETECTED_OS)"
+	@if [ "$(DETECTED_OS)" = "Windows" ]; then \
+		$(COPY_CMD); \
+	else \
+		@if [ -d "./patch/src" ]; then cp -r ./patch/src/. ./src/; fi; \
+	fi
+	@echo "Patch applied."
+
+setup-development:
+	poetry install --no-root
+	$(MAKE) create-env
+
+clean:
+	$(RM_CMD) __pycache__
+	$(RM_CMD) .pytest_cache
+	$(RM_CMD) build
+	$(RM_CMD) dist
+	$(RM_CMD) *.egg-info
+
+# Display help information
+help:
+	@echo "Available targets:"
+	@echo "  run                 - Run the template example application"
+	@echo "  create-env          - Create and activate the virtual environment"
+	@echo "  init                - Initialize a new Poetry project"
+	@echo "  patch               - Apply patches to the project"
+	@echo "  setup-development   - Set up the development environment"
+	@echo "  clean               - Remove build artifacts and cache files"
+	@echo "  help                - Display this help message"
+
+# Set default target
+.DEFAULT_GOAL := help
