@@ -1,59 +1,107 @@
+# main.py
+
 """Main script to execute the RAG Workflow."""
 
 import asyncio
 import nest_asyncio
 import logging
+import sys
+from typing import Any, Dict,Optional
 
-from workflow.embedder import Embedder  # Assuming you have an Embedder implementation
-from workflow.vector_store import VectorStore  # Assuming you have a VectorStore implementation
-from workflow.workflow_utils import draw_all_possible_flows, draw_most_recent_execution
+from llama_index.utils.workflow import draw_all_possible_flows, draw_most_recent_execution
 from workflow.rag_workflow import ConcreteRAGWorkflow
 
 # Apply nest_asyncio to allow nested event loops (useful in some environments like Jupyter)
 nest_asyncio.apply()
 
-# Configure logger
-logging.basicConfig(level=logging.DEBUG)
-logger = logging.getLogger("rag_main")
+# Configure Logging
+def configure_logger(name: str = "rag_main") -> logging.Logger:
+    """Configures and returns a logger."""
+    logger = logging.getLogger(name)
+    logger.setLevel(logging.DEBUG)
 
+    if not logger.handlers:
+        handler = logging.StreamHandler(sys.stdout)
+        handler.setLevel(logging.DEBUG)
+
+        formatter = logging.Formatter(
+            fmt='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+            datefmt='%Y-%m-%d %H:%M:%S'
+        )
+        handler.setFormatter(formatter)
+        logger.addHandler(handler)
+
+    logger.propagate = False
+    return logger
+
+# Placeholder implementations of Embedder and VectorStore
+class Embedder:
+    """Placeholder Embedder class."""
+    async def get_text_embedding_batch(self, texts: list, show_progress: bool = False) -> list:
+        await asyncio.sleep(0.1)  # Simulate async operation
+        return [[0.1] * 768 for _ in texts]
+
+    async def aget_text_embedding_batch(self, texts: list, show_progress: bool = False) -> list:
+        return await self.get_text_embedding_batch(texts, show_progress)
+
+class VectorStore:
+    """Placeholder VectorStore class."""
+    def __init__(self):
+        self.embeddings: Dict[str, list] = {}
+
+    async def add_embeddings(self, embeddings: Dict[str, list]) -> None:
+        await asyncio.sleep(0.1)  # Simulate async operation
+        self.embeddings.update(embeddings)
+        logging.getLogger("vector_store").debug(f"Added embeddings: {embeddings}")
+
+    async def query(self, query_embedding: list, top_k: int = 5) -> list:
+        await asyncio.sleep(0.1)  # Simulate async operation
+        return [f"doc{i}" for i in range(1, top_k + 1)]
 
 async def main():
-    # Initialize components
-    embedder = Embedder()  # Replace with your actual Embedder instance
-    vector_store = VectorStore()  # Replace with your actual VectorStore instance
+    """Main entry point for executing the RAG workflow."""
+    logger = configure_logger()
 
-    # Instantiate the workflow
+    embedder = Embedder()  # Replace with your actual Embedder implementation
+    vector_store = VectorStore()  # Replace with your actual VectorStore implementation
+
     workflow = ConcreteRAGWorkflow(embedder=embedder, vector_store=vector_store)
 
-    # Retrieve and inspect the registered steps
     steps = workflow.steps
-    print(f"Registered steps: {list(steps.keys())}")
+    logger.info(f"Registered steps: {list(steps.keys())}")
     for step_name, step in steps.items():
-        print(f"Step '{step_name}' config: {step.step_config}")
+        logger.info(f"Step '{step_name}' config: {step.step_config}")
 
-    # Visualize all possible flows
-    draw_all_possible_flows(ConcreteRAGWorkflow, filename="multi_step_workflow", format="png")
-
+    # Visualize workflow flows
+    try:
+        draw_all_possible_flows(workflow, filename="multi_step_workflow.html")
+        logger.info("All possible workflow flows have been visualized in 'multi_step_workflow.html'.")
+    except Exception as e:
+        logger.error(f"Failed to visualize workflow flows: {e}")
+    query = "resume the text"
     # Run the ingest step
-    if hasattr(workflow, "ingest"):
-        ingest_result = await workflow.run(dirname="Data")
-    else:
-        logger.error("Ingest step is not defined in the workflow.")
-        return
+    try:
+        ingest_result = await workflow.run(dirname="Data", query=query, index=None)
+    except ValueError as e:
+        logger.error(f"Ingest step encountered an issue: {e}")
+        return  # Early termination if ingest fails
 
-    # Run the retrieve, rerank, and synthesize steps
-    if hasattr(workflow, "retrieve") and hasattr(workflow, "rerank") and hasattr(workflow, "synthesize"):
-        rag_result = await workflow.run(query="How much is the project?", index=ingest_result)
-    else:
-        logger.error("Retrieve, rerank, or synthesize steps are not defined in the workflow.")
-        return
+    # IMPORTANT: Make sure to provide a valid query
 
-    # Print the result
-    print(f"\nSynthesized Answer: {rag_result}")
+
+    # Run the retrieve, rerank, and synthesize steps if ingest was successful
+    try:
+        rag_result = await workflow.run(dirname=None, query=query, index=ingest_result)
+        logger.info(f"Synthesized Answer: {rag_result}")
+    except ValueError as e:
+        logger.error(f"RAG steps encountered an issue: {e}")
 
     # Visualize the most recent execution
-    draw_most_recent_execution(workflow, filename="rag_flow_recent", format="png")
-
+    try:
+        draw_most_recent_execution(workflow, filename="rag_flow_recent.html")
+        logger.info("Most recent workflow execution has been visualized in 'rag_flow_recent.html'.")
+    except Exception as e:
+        logger.error(f"Failed to visualize recent workflow execution: {e}")
 
 if __name__ == "__main__":
     asyncio.run(main())

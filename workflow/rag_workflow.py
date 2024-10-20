@@ -1,13 +1,15 @@
-"""RAG Workflow implementation."""
+# rag_workflow.py
 
+import os  # For directory operations
 import asyncio
 import logging
 from typing import Any, Dict, List, Optional
 
-from workflow_utils import WorkflowStep, step_config
+from workflow.workflow_utils import WorkflowStep, step_config, get_steps_from_instance
 
-logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger("rag_workflow")
+logging.basicConfig(level=logging.DEBUG)
+
 
 class RAGWorkflow:
     """Retrieval-Augmented Generation Workflow."""
@@ -15,11 +17,15 @@ class RAGWorkflow:
     def __init__(self):
         self.steps: Dict[str, WorkflowStep] = {}
         self.execution_history: List[str] = []
+        self.accepted_events = {"start", "stop", "ingest", "retrieve", "rerank", "synthesize"}
+        self._contexts = {}  # Initialize contexts if needed
+        self.documents: List[str] = []  # To store ingested document contents
         self.register_steps()
 
     def register_steps(self):
         """Registers workflow steps from the instance."""
         self.steps = {name: step for name, step in get_steps_from_instance(self).items()}
+        logger.debug(f"Registered steps: {list(self.steps.keys())}")
 
     async def run_step(self, step_name: str, **kwargs) -> Any:
         """Executes a single workflow step.
@@ -70,39 +76,67 @@ class ConcreteRAGWorkflow(RAGWorkflow):
 
     @step_config(description="Ingest data from a directory and embed it.")
     async def ingest(self, dirname: str) -> Any:
-        """Ingest data from the specified directory."""
-        # Implement the ingest logic, e.g., loading documents, creating nodes, embedding
         logger.debug(f"Ingesting data from directory: {dirname}")
-        # Placeholder implementation
-        ingest_result = {"data": "ingested_data"}
+
+        documents = []
+        embeddings = {}
+
+        # List all files in the given directory
+        for filename in os.listdir(dirname):
+            file_path = os.path.join(dirname, filename)
+            if os.path.isfile(file_path):  # Ensure it's a file
+                try:
+                    # Read the content of the file
+                    with open(file_path, 'r', encoding='utf-8') as f:
+                        content = f.read()
+                    documents.append(content)
+
+                    # Get document embedding
+                    embedding = await self.embedder.get_text_embedding_batch([content])
+                    embeddings[filename] = embedding[0]  # Assuming embedding returns a list of lists
+
+                    logger.debug(f"Ingested file '{filename}' with content: {content[:30]}...")  # Log the first 30 chars
+                except Exception as e:
+                    logger.error(f"Failed to read file '{filename}': {e}")
+
+        await self.vector_store.add_embeddings(embeddings)
+
+        # Store ingested document contents
+        self.documents = documents  # Store ingested documents for retrieval later
+        ingest_result = {"documents": documents, "embeddings": embeddings}
+        logger.info(f"Ingest step completed with result: {ingest_result}")
         return ingest_result
 
     @step_config(description="Retrieve relevant documents based on a query.")
     async def retrieve(self, query: str, index: Any) -> Any:
-        """Retrieve documents relevant to the query."""
+        if not query:
+            raise ValueError("Query must be provided for retrieval.")
         logger.debug(f"Retrieving documents for query: {query}")
-        # Placeholder implementation
-        retrieved = {"documents": ["doc1", "doc2"]}
+
+        # Simulated retrieval logic: filter documents based on the query
+        retrieved_docs = [doc for doc in self.documents if query.lower() in doc.lower()]  # Simple substring match
+
+        retrieved = {"documents": retrieved_docs}
+        logger.info(f"Retrieve step completed with retrieved documents: {retrieved}")
         return retrieved
 
     @step_config(description="Rerank the retrieved documents.")
     async def rerank(self, retrieved: Any) -> Any:
-        """Rerank the retrieved documents."""
         logger.debug("Reranking documents.")
-        # Placeholder implementation
-        reranked = {"documents": ["doc2", "doc1"]}
+        await asyncio.sleep(1)  # Simulate rerank operation
+        reranked = {"documents": list(reversed(retrieved["documents"]))}
+        logger.info(f"Rerank step completed with reranked documents: {reranked}")
         return reranked
 
     @step_config(description="Synthesize an answer from the reranked documents.")
     async def synthesize(self, reranked: Any) -> Any:
-        """Synthesize an answer based on reranked documents."""
         logger.debug("Synthesizing answer from documents.")
-        # Placeholder implementation
-        synthesized_answer = "The project cost is $10,000."
+        await asyncio.sleep(1)  # Simulate synthesis
+        synthesized_answer = f"Synthesized answer based on documents: {', '.join(reranked['documents'])}"
+        logger.info(f"Synthesize step completed with answer: {synthesized_answer}")
         return synthesized_answer
 
     async def run(self, dirname: Optional[str] = None, query: Optional[str] = None, index: Optional[Any] = None) -> Any:
-        """Defines the execution flow of the workflow."""
         if dirname:
             ingest_result = await self.run_step("ingest", dirname=dirname)
         else:

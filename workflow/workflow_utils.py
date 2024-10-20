@@ -1,15 +1,12 @@
-"""Workflow utilities for Retrieval-Augmented Generation (RAG) systems."""
+# workflow_utils.py
 
-import asyncio
+"""Workflow utilities for RAG systems using llama_index."""
+
 import inspect
+from typing import Any, Callable, Dict, Optional, Type
 import logging
-from typing import Any, Callable, Dict, List, Optional, Type
 
-import graphviz
-
-# Configure logger
 logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.DEBUG)
 
 
 class WorkflowStep:
@@ -20,8 +17,8 @@ class WorkflowStep:
         self.func = func
         self.step_config = step_config or {}
 
-    def __call__(self, *args, **kwargs) -> Any:
-        return self.func(*args, **kwargs)
+    async def __call__(self, *args, **kwargs) -> Any:
+        return await self.func(*args, **kwargs)
 
 
 def get_steps_from_class(cls: Type) -> Dict[str, WorkflowStep]:
@@ -39,6 +36,7 @@ def get_steps_from_class(cls: Type) -> Dict[str, WorkflowStep]:
         step_config = getattr(method, "__step_config", None)
         if step_config is not None:
             steps[name] = WorkflowStep(name, method, step_config)
+    logger.debug(f"Extracted steps from class '{cls.__name__}': {list(steps.keys())}")
     return steps
 
 
@@ -57,6 +55,7 @@ def get_steps_from_instance(instance: Any) -> Dict[str, WorkflowStep]:
         step_config = getattr(method, "__step_config", None)
         if step_config is not None:
             steps[name] = WorkflowStep(name, method, step_config)
+    logger.debug(f"Extracted steps from instance '{type(instance).__name__}': {list(steps.keys())}")
     return steps
 
 
@@ -79,55 +78,3 @@ def step_config(**config):
         setattr(func, "__step_config", config)
         return func
     return decorator
-
-
-def draw_all_possible_flows(cls: Type, filename: str = "workflow_flows", format: str = "png") -> None:
-    """
-    Visualizes all possible flows within a workflow class based on defined steps.
-
-    Args:
-        cls (Type): The workflow class to visualize.
-        filename (str, optional): The filename for the output graph. Defaults to "workflow_flows".
-        format (str, optional): The format of the output graph. Defaults to "png".
-
-    """
-    steps = get_steps_from_class(cls)
-    dot = graphviz.Digraph(comment="Workflow Flows")
-
-    for step_name, step in steps.items():
-        dot.node(step_name, step_name)
-
-    # For simplicity, connect steps in the order they are defined
-    step_names = list(steps.keys())
-    for i in range(len(step_names) - 1):
-        dot.edge(step_names[i], step_names[i + 1])
-
-    dot.render(filename, format=format, cleanup=True)
-    logger.info(f"All possible workflow flows have been saved to {filename}.{format}")
-
-
-def draw_most_recent_execution(workflow_instance: Any, filename: str = "recent_workflow_execution", format: str = "png") -> None:
-    """
-    Visualizes the most recent execution path of the workflow.
-
-    Args:
-        workflow_instance (Any): The instance of the workflow that was executed.
-        filename (str, optional): The filename for the output graph. Defaults to "recent_workflow_execution".
-        format (str, optional): The format of the output graph. Defaults to "png".
-
-    """
-    if not hasattr(workflow_instance, "execution_history"):
-        logger.warning("No execution history found in the workflow instance.")
-        return
-
-    history = workflow_instance.execution_history
-    dot = graphviz.Digraph(comment="Recent Workflow Execution")
-
-    for step in history:
-        dot.node(step, step)
-
-    for i in range(len(history) - 1):
-        dot.edge(history[i], history[i + 1])
-
-    dot.render(filename, format=format, cleanup=True)
-    logger.info(f"Most recent workflow execution has been saved to {filename}.{format}")

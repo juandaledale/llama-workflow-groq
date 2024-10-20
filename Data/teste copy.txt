@@ -1,0 +1,204 @@
+Executable Packages
+Packages marked with an asterisk(*) are provided by outside parties. We list them for convenience, but disclaim responsibility for the contents of these packages.
+
+Linux
+Precompiled binaries are available attached to releases on Gitlab, https://gitlab.com/graphviz/graphviz/-/releases. You may also find it useful to try one of the following third-party sites.
+
+Debian*, Ubuntu*
+
+sudo apt install graphviz
+Fedora project*, Rocky Linux, Redhat Enterprise Linux, or CentOS*
+
+sudo dnf install graphviz
+Windows
+Stable Windows install packages, built with Microsoft Visual Studio 16 2019:
+
+graphviz-12.1.2
+graphviz-12.1.2 (64-bit) EXE installer [sha256]
+graphviz-12.1.2 (32-bit) EXE installer [sha256]
+graphviz-12.1.2 (64-bit) ZIP archive [sha256] (contains all tools and libraries)
+graphviz-12.1.2 (32-bit) ZIP archive [sha256] (contains all tools and libraries)
+graphviz-12.1.1
+graphviz-12.1.1 (32-bit) ZIP archive [sha256] (contains all tools and libraries)
+graphviz-12.1.1 (32-bit) EXE installer [sha256]
+graphviz-12.1.1 (64-bit) ZIP archive [sha256] (contains all tools and libraries)
+graphviz-12.1.1 (64-bit) EXE installer [sha256]
+graphviz-12.1.0
+graphviz-12.1.0 (32-bit) ZIP archive [sha256] (contains all tools and libraries)
+graphviz-12.1.0 (64-bit) EXE installer [sha256]
+graphviz-12.1.0 (64-bit) ZIP archive [sha256] (contains all tools and libraries)
+graphviz-12.1.0 (32-bit) EXE installer [sha256]
+graphviz-12.0.0
+graphviz-12.0.0 (64-bit) ZIP archive [sha256] (contains all tools and libraries)
+graphviz-12.0.0 (32-bit) ZIP archive [sha256] (contains all tools and libraries)
+graphviz-12.0.0 (64-bit) EXE installer [sha256]
+graphviz-12.0.0 (32-bit) EXE installer [sha256]
+graphviz-11.0.0
+graphviz-11.0.0 (32-bit) ZIP archive [sha256] (contains all tools and libraries)
+graphviz-11.0.0 (64-bit) ZIP archive [sha256] (contains all tools and libraries)
+graphviz-11.0.0 (32-bit) EXE installer [sha256]
+graphviz-11.0.0 (64-bit) EXE installer [sha256]
+graphviz-10.0.1
+graphviz-10.0.1 (32-bit) ZIP archive [sha256] (contains all tools and libraries)
+graphviz-10.0.1 (64-bit) ZIP archive [sha256] (contains all tools and libraries)
+graphviz-10.0.1 (32-bit) EXE installer [sha256]
+graphviz-10.0.1 (64-bit) EXE installer [sha256]
+graphviz-9.0.0
+graphviz-9.0.0 (32-bit) ZIP archive [sha256] (contains all tools and libraries)
+graphviz-9.0.0 (64-bit) EXE installer [sha256]
+graphviz-9.0.0 (32-bit) EXE installer [sha256]
+graphviz-8.1.0
+graphviz-8.1.0 (32-bit) ZIP archive [sha256] (contains all tools and libraries)
+graphviz-8.1.0 (64-bit) EXE installer [sha256]
+graphviz-8.1.0 (32-bit) EXE installer [sha256]
+graphviz-8.0.5
+graphviz-8.0.5 (32-bit) ZIP archive [sha256] (contains all tools and libraries)
+graphviz-8.0.5 (64-bit) EXE installer [sha256]
+graphviz-8.0.5 (32-bit) EXE installer [sha256]
+graphviz-8.0.3
+graphviz-8.0.3 (32-bit) ZIP archive [sha256] (contains all tools and libraries)
+graphviz-8.0.3 (64-bit) EXE installer [sha256]
+graphviz-8.0.3 (32-bit) EXE installer [sha256]
+graphviz-8.0.2
+graphviz-8.0.2 (32-bit) ZIP archive [sha256] (contains all tools and libraries)
+graphviz-8.0.2 (32-bit) EXE installer [sha256]
+graphviz-8.0.2 (64-bit) EXE installer [sha256]
+graphviz-8.0.1
+graphviz-8.0.1 (32-bit) ZIP archive [sha256] (contains all tools and libraries)
+graphviz-8.0.1 (64-bit) EXE installer [sha256]
+graphviz-8.0.1 (32-bit) EXE installer [sha256]
+graphviz-7.1.0
+graphviz-7.1.0 (32-bit) ZIP archive [sha256] (contains all tools and libraries)
+graphviz-7.1.0 (64-bit) EXE installer [sha256]
+graphviz-7.1.0 (32-bit) EXE installer [sha256]
+graphviz-7.0.6
+graphviz-7.0.6 (32-bit) ZIP archive [sha256] (contains all tools and libraries)
+graphviz-7.0.6 (32-bit) EXE installer [sha256]
+graphviz-7.0.6 (64-bit) EXE installer [sha256]
+graphviz-7.0.5
+graphviz-7.0.5 (32-bit) ZIP archive [sha256] (contains all tools and libraries)
+graphviz-7.0.5 (32-bit) EXE installer [sha256]
+graphviz-7.0.5 (64-bit) EXE installer [sha256]
+graphviz-7.0.4
+graphviz-7.0.4 (32-bit) ZIP archive [sha256] (contains all tools and libraries)
+graphviz-7.0.4 (32-bit) EXE installer [sha256]
+graphviz-7.0.4 (64-bit) EXE installer [sha256]
+graphviz-7.0.3
+graphviz-7.0.3 (32-bit) ZIP archive [sha256] (contains all tools and libraries)
+graphviz-7.0.3 (32-bit) EXE installer [sha256]
+graphviz-7.0.3 (64-bit) EXE installer [sha256]
+graphviz-7.0.2
+graphviz-7.0.2 (32-bit) ZIP archive [sha256] (contains all tools and libraries)
+graphviz-7.0.2 (32-bit) EXE installer [sha256]
+graphviz-7.0.2 (64-bit) EXE installer [sha256]
+graphviz-7.0.1
+graphviz-7.0.1 (32-bit) ZIP archive [sha256] (contains all tools and libraries)
+graphviz-7.0.1 (64-bit) EXE installer [sha256]
+graphviz-7.0.1 (32-bit) EXE installer [sha256]
+graphviz-7.0.0
+graphviz-7.0.0 (32-bit) ZIP archive [sha256] (contains all tools and libraries)
+graphviz-7.0.0 (64-bit) EXE installer [sha256]
+graphviz-7.0.0 (32-bit) EXE installer [sha256]
+graphviz-6.0.2
+graphviz-6.0.2 (32-bit) ZIP archive [sha256] (contains all tools and libraries)
+graphviz-6.0.2 (64-bit) EXE installer [sha256]
+graphviz-6.0.2 (32-bit) EXE installer [sha256]
+graphviz-6.0.1
+graphviz-6.0.1 (32-bit) ZIP archive [sha256] (contains all tools and libraries)
+graphviz-6.0.1 (32-bit) EXE installer [sha256]
+graphviz-6.0.1 (64-bit) EXE installer [sha256]
+graphviz-5.0.1
+graphviz-5.0.1 (32-bit) ZIP archive [sha256] (contains all tools and libraries)
+graphviz-5.0.1 (32-bit) EXE installer [sha256]
+graphviz-5.0.1 (64-bit) EXE installer [sha256]
+graphviz-5.0.0
+graphviz-5.0.0 (32-bit) ZIP archive [sha256] (contains all tools and libraries)
+graphviz-5.0.0 (32-bit) EXE installer [sha256]
+graphviz-5.0.0 (64-bit) EXE installer [sha256]
+graphviz-4.0.0
+graphviz-4.0.0 (32-bit) EXE installer [sha256]
+graphviz-4.0.0 (64-bit) EXE installer [sha256]
+graphviz-4.0.0 (32-bit) ZIP archive [sha256] (contains all tools and libraries)
+graphviz-3.0.0
+graphviz-3.0.0 (32-bit) EXE installer [sha256]
+graphviz-3.0.0 (64-bit) EXE installer [sha256]
+graphviz-3.0.0 (32-bit) ZIP archive [sha256] (contains all tools and libraries)
+graphviz-2.50.0
+graphviz-2.50.0 (32-bit) EXE installer [sha256]
+graphviz-2.50.0 (64-bit) EXE installer [sha256]
+graphviz-2.50.0 (32-bit) ZIP archive [sha256] (contains all tools and libraries)
+Further graphviz-2.50.0 variants available on GitLab
+graphviz-2.49.3
+graphviz-2.49.3 (32-bit) EXE installer [sha256]
+graphviz-2.49.3 (64-bit) EXE installer [sha256]
+graphviz-2.49.3 (32-bit) ZIP archive [sha256] (contains all tools and libraries)
+Further graphviz-2.49.3 variants available on GitLab
+graphviz-2.49.2
+graphviz-2.49.2 (32-bit) EXE installer [sha256]
+graphviz-2.49.2 (64-bit) EXE installer [sha256]
+graphviz-2.49.2 (32-bit) ZIP archive [sha256] (contains all tools and libraries)
+Further graphviz-2.49.2 variants available on GitLab
+graphviz-2.49.1
+graphviz-2.49.1 (32-bit) EXE installer [sha256]
+graphviz-2.49.1 (64-bit) EXE installer [sha256]
+graphviz-2.49.1 (32-bit) ZIP archive [sha256] (contains all tools and libraries)
+Further graphviz-2.49.1 variants available on GitLab
+graphviz-2.49.0
+graphviz-2.49.0 (32-bit) EXE installer [sha256]
+graphviz-2.49.0 (64-bit) EXE installer [sha256]
+graphviz-2.49.0 (32-bit) ZIP archive [sha256] (contains all tools and libraries)
+Further graphviz-2.49.0 variants available on GitLab
+Prior to 2.46 series
+Development Windows install packages
+
+2.46.0 and newer
+Prior to 2.46.0
+Cygwin Ports* provides a port of Graphviz to Cygwin.
+
+WinGraphviz* Win32/COM object (dot/neato library for Visual Basic and ASP).
+
+Chocolatey packages Graphviz for Windows.
+
+choco install graphviz
+Windows Package Manager provides Graphviz Windows packages.
+
+winget install graphviz
+Mostly correct notes for building Graphviz on Windows can be found here.
+
+Mac
+MacPorts* provides both stable and development versions of Graphviz and the Mac GUI Graphviz.app. These can be obtained via the ports graphviz, graphviz-devel, graphviz-gui and graphviz-gui-devel.
+
+sudo port install graphviz
+Homebrew* has a Graphviz port.
+
+brew install graphviz
+We need help with macOS, if you would like to volunteer.
+
+We would appreciate if someone donates a script to run pkgbuild or productbuild to automatically generate macOS installers. Packaging for Apple Administrators could be a good reference. Note graphviz needs postinstall actions, at least dot -c; also fc-cache if Graphviz has freetype/cairopango drivers.
+
+Solaris
+For Solaris, please use the graphviz stable releases here. These are maintained by Laurent Blume / John Ellson. Currently available packages are:
+
+graphviz	Graph Visualization Tools
+graphviz_dev	Graphviz headers etc. for development
+graphvizdoc	Graphviz documentation
+graphvizgd	Graphviz renderers using gd
+graphvizgraphs	Graphviz example graphs
+graphvizguile	Graphviz language binding for guile
+graphvizperl	Graphviz language binding for perl
+graphvizpython	Graphviz language binding for python
+graphvizruby	Graphviz language binding for ruby
+graphvizsharp	Graphviz language binding for C#
+graphviztcl	Graphviz language binding for tcl
+Minimally, graphviz and graphvizgd should be installed.
+
+Other Unix
+DragonFly BSD*
+FreeBSD*
+NetBSD*
+OpenBSD*
+Source Code
+Last modified May 17, 2024: update Fedora/Rocky/RHEL/CentOS installation instructions to 'dnf' (b6648f9)
+  
+© 2024 The Graphviz Authors
+About
